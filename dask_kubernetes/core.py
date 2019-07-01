@@ -21,6 +21,7 @@ except ImportError:
 import dask
 from distributed.deploy import LocalCluster, Cluster
 from distributed.comm.utils import offload
+from distributed.security import Security
 import kubernetes
 from tornado import gen
 
@@ -196,7 +197,7 @@ class KubeCluster(Cluster):
             raise ValueError(msg)
 
         self.cluster = LocalCluster(
-            ip=host or socket.gethostname(), scheduler_port=port, n_workers=0, **kwargs
+            ip=host or socket.gethostname(), scheduler_port=port, n_workers=0, security=Security(), **kwargs
         )
 
         ClusterAuth.load_first(auth)
